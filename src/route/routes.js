@@ -1,5 +1,7 @@
 import { Navigate } from "react-router-dom";
 import LoginPage from "../pages/loginPage";
+import HomePage from "../pages/homePage";
+import NotFoundPage from "../pages/notFoundPage";
 
 const routes = [
   {
@@ -14,9 +16,14 @@ const routes = [
     element: <LoginPage></LoginPage> ?? <div>登录页面</div> // 404页面
   },
   {
+    _name: "home",
+    path: "/home",
+    element: <HomePage></HomePage> ?? <div>home</div> // 404页面
+  },
+  {
     _name: "404",
     path: "*",
-    element: <div>404页面</div> // 404页面
+    element: <NotFoundPage></NotFoundPage> // 404页面
   }
 ];
 

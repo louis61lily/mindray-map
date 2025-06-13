@@ -1,11 +1,28 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+// import service from "../../tools/request";
 import "./index.scss";
 import logo from "../../static/logo.png";
 // 登录页面
 const LoginPage = () => {
-  const onFinish = () => {
-    console.log("form finish");
+  const onFinish = async (values) => {
+    const { username, password } = values;
+    console.log(username, password, "-------------------");
+    window.location.href = "/home";
+    // try {
+    //   const result = await service.post("/login", { username, password });
+    //   if (result.success) {
+    //     localStorage.setItem("token", result.token);
+    //     message.success("登录成功");
+    //     // 登录成功后的操作，如跳转到首页
+    //     // window.location.href = '/home';
+    //   } else {
+    //     message.error(result.message || "登录失败，请检查账号密码");
+    //   }
+    // } catch (error) {
+    //   message.error("登录失败，网络出现问题");
+    //   console.error("登录出错:", error);
+    // }
   };
 
   return (

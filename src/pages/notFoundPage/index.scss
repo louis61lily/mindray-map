@@ -1,0 +1,18 @@
+.not-found-page {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  .not-found-root {
+    width: 100%;
+    height: 115px;
+    padding: 25px;
+    border-bottom: 1px solid rgb(245, 243, 243);
+    p {
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+  .not-found-description {
+    padding-bottom: 25px;
+  }
+}
