@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { Layout, Menu, Dropdown } from "antd";
+import { Layout, Menu, Dropdown, Tag } from "antd";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  DownOutlined
+  DownOutlined,
+  CloseOutlined
 } from "@ant-design/icons";
 import "./index.scss";
 import logo from "../../static/logo.png";
+import NotFoundPage from "../notFoundPage";
 
 const { Header, Sider, Content } = Layout;
 
 // 系统页面
 const HomePage = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedKey, setSelectedKey] = useState("home");
+  const [tagPath, setTagPath] = useState([{ key: "home", label: "首页" }]);
 
   // 侧边栏收起与展开
   const toggle = () => {
@@ -22,6 +26,37 @@ const HomePage = () => {
   // 用户点击退出操作
   const handleLogout = () => {
     console.log("登出操作");
+  };
+
+  // 菜单项选择事件处理函数
+  const handleMenuSelect = ({ key }) => {
+    const tagMap = {
+      home: "首页",
+      service: "服务记录管理",
+      require: "服务需求管理"
+    };
+    if (!tagPath.some((item) => item.key === key)) {
+      setTagPath([...tagPath, { key, label: tagMap[key] }]);
+    }
+    setSelectedKey(key);
+  };
+
+  // 分别删除标签项
+  const removeTagItem = (index) => {
+    const newTagPath = tagPath.filter((_, i) => i !== index);
+    setTagPath(newTagPath);
+
+    // 如果删除的是当前选中项，选择最后一个标签作为新的选中项
+    if (tagPath[index].key === selectedKey) {
+      setSelectedKey(
+        newTagPath.length > 0 ? newTagPath[newTagPath.length - 1].key : "home"
+      );
+    }
+  };
+
+  // 点击 Tag 切换页面
+  const handleTagClick = (key) => {
+    setSelectedKey(key);
   };
 
   return (
@@ -36,7 +71,13 @@ const HomePage = () => {
         <div className="home-menu-logo">
           <img src={logo} alt="logo" />
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["home"]}>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["home"]}
+          selectedKeys={[selectedKey]}
+          onClick={handleMenuSelect}
+        >
           <Menu.Item key="home">首页</Menu.Item>
           <Menu.Item key="service">服务记录管理</Menu.Item>
           <Menu.Item key="require">服务需求管理</Menu.Item>
@@ -80,14 +121,43 @@ const HomePage = () => {
             </div>
           </div>
         </Header>
+        <div style={{ margin: "10px 0px 0px 10px" }}>
+          {tagPath.map((item, index) => (
+            <Tag
+              key={item.key}
+              closable
+              onClose={(e) => {
+                e.stopPropagation();
+                removeTagItem(index);
+              }}
+              closeIcon={<CloseOutlined />}
+              style={{
+                marginRight: 8,
+                cursor: "pointer",
+                backgroundColor:
+                  item.key === selectedKey ? "#1890ff" : "#fafafa",
+                color: item.key === selectedKey ? "#fff" : "#000",
+                padding: "4px 12px",
+                // 增大字体大小
+                fontSize: "14px"
+              }}
+              // 添加点击事件处理函数
+              onClick={() => handleTagClick(item.key)}
+            >
+              {item.label}
+            </Tag>
+          ))}
+        </div>
         <Content
           style={{
-            margin: "24px 16px",
+            margin: "10px",
             padding: 24,
             background: "#fff"
           }}
         >
-          右侧内容区域
+          {selectedKey === "home" && <NotFoundPage />}
+          {selectedKey === "service" && <div>服务记录管理内容</div>}
+          {selectedKey === "require" && <div>服务需求管理内容</div>}
         </Content>
       </Layout>
     </Layout>
