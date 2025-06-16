@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu, Dropdown, Tag } from "antd";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   DownOutlined,
-  CloseOutlined
+  CloseOutlined,
+  FullscreenOutlined,
+  FullscreenExitOutlined
 } from "@ant-design/icons";
 import "./index.scss";
 import logo from "../../static/logo.png";
 import NotFoundPage from "../notFoundPage";
+import RequireManage from "../../components/requireManage";
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,6 +20,7 @@ const HomePage = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState("home");
   const [tagPath, setTagPath] = useState([{ key: "home", label: "首页" }]);
+  const [isFullscreen, setIsFullscreen] = useState(false); // 新增全屏状态
 
   // 侧边栏收起与展开
   const toggle = () => {
@@ -27,6 +31,57 @@ const HomePage = () => {
   const handleLogout = () => {
     console.log("登出操作");
   };
+
+  // 切换全屏状态
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } else {
+      const docElement = document.documentElement;
+      if (docElement.requestFullscreen) {
+        docElement.requestFullscreen();
+      } else if (docElement.webkitRequestFullscreen) {
+        docElement.webkitRequestFullscreen();
+      } else if (docElement.msRequestFullscreen) {
+        docElement.msRequestFullscreen();
+      }
+    }
+    // 暂时注释掉手动更新状态，依靠事件监听更新
+    // setIsFullscreen(!isFullscreen);
+  };
+
+  // 监听全屏状态变化
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const newIsFullscreen =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement;
+      setIsFullscreen(!!newIsFullscreen);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("msfullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "msfullscreenchange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
 
   // 菜单项选择事件处理函数
   const handleMenuSelect = ({ key }) => {
@@ -80,7 +135,7 @@ const HomePage = () => {
         >
           <Menu.Item key="home">首页</Menu.Item>
           <Menu.Item key="service">服务记录管理</Menu.Item>
-          <Menu.Item key="require">服务需求管理</Menu.Item>
+          <Menu.Item key="require">客户需求管理</Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -101,6 +156,16 @@ const HomePage = () => {
             }
           )}
           <div className="header-right">
+            <span
+              onClick={toggleFullscreen}
+              style={{ cursor: "pointer", fontSize: "14px" }}
+            >
+              {isFullscreen ? (
+                <FullscreenExitOutlined />
+              ) : (
+                <FullscreenOutlined />
+              )}
+            </span>
             <span className="identity">身份</span>
             <div className="operate">
               <Dropdown
@@ -138,7 +203,6 @@ const HomePage = () => {
                   item.key === selectedKey ? "#1890ff" : "#fafafa",
                 color: item.key === selectedKey ? "#fff" : "#000",
                 padding: "4px 12px",
-                // 增大字体大小
                 fontSize: "14px"
               }}
               // 添加点击事件处理函数
@@ -156,8 +220,8 @@ const HomePage = () => {
           }}
         >
           {selectedKey === "home" && <NotFoundPage />}
-          {selectedKey === "service" && <div>服务记录管理内容</div>}
-          {selectedKey === "require" && <div>服务需求管理内容</div>}
+          {selectedKey === "service" && <div>服务</div>}
+          {selectedKey === "require" && <RequireManage />}
         </Content>
       </Layout>
     </Layout>

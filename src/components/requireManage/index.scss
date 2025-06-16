@@ -1,0 +1,18 @@
+.require-manage {
+  .require-manage-header {
+    .form-item {
+      margin-right: 20px;
+      margin-bottom: 5px;
+    }
+  }
+  .require-manage-table {
+    margin-top: 20px;
+    border: 1px solid rgb(212, 210, 210);
+    .require-manage-table-header {
+      padding: 10px;
+      border-bottom: 1px solid rgb(212, 210, 210);
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
