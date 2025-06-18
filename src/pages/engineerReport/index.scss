@@ -1,0 +1,15 @@
+.engineer-report {
+  &-box {
+    background: #fff;
+  }
+
+  .signature-container {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+
+  .signature-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

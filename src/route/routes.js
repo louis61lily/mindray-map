@@ -3,6 +3,12 @@ import LoginPage from "../pages/loginPage";
 import HomePage from "../pages/homePage";
 import NotFoundPage from "../pages/notFoundPage";
 import IdentitySelect from "../pages/identitySelect";
+import HospitalSelect from "../pages/hospitalSelect";
+import OperateSelect from "../pages/doctorOperate";
+import PersonList from "../pages/personList";
+import ComplainHotline from "../pages/complainHotline";
+import ServiceEvaluate from "../pages/serviceEvaluate";
+import EngineerReport from "../pages/engineerReport";
 
 const routes = [
   {
@@ -14,7 +20,7 @@ const routes = [
   {
     _name: "identity",
     path: "/identity",
-    element: <IdentitySelect></IdentitySelect>
+    element: <IdentitySelect></IdentitySelect> ?? <div>身份选择</div>
   },
   {
     _name: "login",
@@ -29,27 +35,32 @@ const routes = [
   {
     _name: "hospital",
     path: "/hospital",
-    element: <div>医院选择</div>
+    element: <HospitalSelect></HospitalSelect> ?? <div>医院选择</div>
   },
   {
     _name: "engineer",
     path: "/engineer",
-    element: <div>工程师上报</div>
+    element: <EngineerReport></EngineerReport> ?? <div>工程师上报</div>
+  },
+  {
+    _name: "doctor-operate",
+    path: "/doctor-operate",
+    element: <OperateSelect></OperateSelect> ?? <div>科室操作</div>
   },
   {
     _name: "person-list",
     path: "/person-list",
-    element: <div>人员联系</div>
+    element: <PersonList></PersonList> ?? <div>人员联系</div>
   },
   {
     _name: "complain-hotline",
     path: "/complain-hotline",
-    element: <div>投诉热线</div>
+    element: <ComplainHotline></ComplainHotline> ?? <div>投诉热线</div>
   },
   {
     _name: "service-evaluate",
     path: "/service-evaluate",
-    element: <div>服务评价</div>
+    element: <ServiceEvaluate></ServiceEvaluate> ?? <div>服务评价</div>
   },
   {
     _name: "404",

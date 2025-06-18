@@ -30,16 +30,13 @@ const IdentitySelect = () => {
         default:
           break;
       }
-    } else {
-      // 未选择身份时可以给出提示
-      console.log("请先选择您的身份");
     }
   };
 
   return (
     <div className="identity-select">
       <BoxModel>
-        <div className="custom-box">
+        <div className="identity-select-box">
           <Row justify="center" gutter={[0, 16]}>
             <Col
               span={24}
@@ -62,6 +59,8 @@ const IdentitySelect = () => {
                 block
                 style={{ width: "100%" }}
                 onClick={handleConfirmClick}
+                // 当未选择身份时禁用按钮
+                disabled={!selectedIdentity}
               >
                 确认
               </Button>

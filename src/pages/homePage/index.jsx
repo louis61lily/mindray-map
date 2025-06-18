@@ -12,6 +12,7 @@ import "./index.scss";
 import logo from "../../static/logo.png";
 import NotFoundPage from "../notFoundPage";
 import RequireManage from "../../components/requireManage";
+import ServiceManage from "../../components/serivceManage";
 
 const { Header, Sider, Content } = Layout;
 
@@ -220,7 +221,7 @@ const HomePage = () => {
           }}
         >
           {selectedKey === "home" && <NotFoundPage />}
-          {selectedKey === "service" && <div>服务</div>}
+          {selectedKey === "service" && <ServiceManage></ServiceManage>}
           {selectedKey === "require" && <RequireManage />}
         </Content>
       </Layout>

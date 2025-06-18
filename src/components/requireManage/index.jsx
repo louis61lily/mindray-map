@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Form, Select, DatePicker, Button, Table, Modal, Input } from "antd";
+import {
+  Form,
+  Select,
+  Tooltip,
+  DatePicker,
+  Button,
+  Table,
+  Modal,
+  Input
+} from "antd";
 import "./index.scss";
 
 const requireStatus = [
@@ -60,7 +69,6 @@ const RequireManage = () => {
       .validateFields()
       .then((values) => {
         console.log("修改提交的值：", values);
-        // 这里添加实际的修改逻辑
         setIsModalVisible(false);
       })
       .catch((errorInfo) => {
@@ -102,75 +110,145 @@ const RequireManage = () => {
     // 可添加更多模拟数据
   ];
 
-  // 表格列配置
   const columns = [
     {
       title: "序号",
       dataIndex: "key",
       key: "key",
-      align: "center"
+      align: "center",
+      width: 80,
+      render: (text) => (
+        <Tooltip title={text}>
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis"
+            }}
+          >
+            {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
       title: "添加时间",
       dataIndex: "addTime",
       key: "addTime",
-      align: "center"
+      align: "center",
+      width: 120,
+      render: (text) => (
+        <Tooltip title={text}>
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis"
+            }}
+          >
+            {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
       title: "需求状态",
       dataIndex: "requireStatus",
       key: "requireStatus",
       align: "center",
+      width: 120,
       render: (status) => {
         const target = requireStatus.find((item) => item.key === status);
-        return target ? target.label : "";
+        const displayText = target ? target.label : "";
+        return (
+          <Tooltip title={displayText}>
+            <div
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
+              }}
+            >
+              {displayText}
+            </div>
+          </Tooltip>
+        );
       }
     },
     {
       title: "提交人",
       dataIndex: "submitter",
       key: "submitter",
-      align: "center"
+      align: "center",
+      width: 120,
+      render: (text) => (
+        <Tooltip title={text}>
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis"
+            }}
+          >
+            {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
       title: "需求内容",
       dataIndex: "content",
       key: "content",
-      align: "center"
+      align: "center",
+      width: 200,
+      render: (text) => (
+        <Tooltip title={text}>
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis"
+            }}
+          >
+            {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
       title: "操作",
       key: "action",
       align: "center",
-      render: (_, record) => {
-        return (
-          <>
-            <Button
-              style={{
-                fontSize: "11px",
-                color: "white",
-                backgroundColor: "#ff5722"
-              }}
-              onClick={() => handleDelete(record)}
-              size="small"
-            >
-              删除
-            </Button>
-            <Button
-              style={{
-                fontSize: "11px",
-                marginRight: "5px",
-                color: "white",
-                backgroundColor: "#147ecd"
-              }}
-              onClick={() => showModal(record)}
-              size="small"
-            >
-              修改
-            </Button>
-          </>
-        );
-      }
+      width: 180,
+      fixed: "right",
+      render: (_, record) => (
+        <div style={{ display: "flex", justifyContent: "center", gap: "8px" }}>
+          <Button
+            style={{
+              fontSize: "11px",
+              color: "white",
+              backgroundColor: "#ff5722",
+              whiteSpace: "nowrap"
+            }}
+            onClick={() => handleDelete(record)}
+            size="small"
+          >
+            删除
+          </Button>
+          <Button
+            style={{
+              fontSize: "11px",
+              color: "white",
+              backgroundColor: "#147ecd",
+              whiteSpace: "nowrap"
+            }}
+            onClick={() => showModal(record)}
+            size="small"
+          >
+            修改
+          </Button>
+        </div>
+      )
     }
   ];
 
@@ -236,7 +314,9 @@ const RequireManage = () => {
           <Table
             dataSource={dataSource}
             columns={columns}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 20 }}
+            scroll={{ x: "max-content" }}
+            bordered
           />
         </div>
       </div>
