@@ -7,16 +7,11 @@ const AppRoutes = () => {
       <Routes>
         {routes.map((route) => {
           return (
-            <Route key={route._name} path={route.path} element={route.element}>
-              {route.children &&
-                route.children.map((childRoute) => (
-                  <Route
-                    key={childRoute._name}
-                    path={childRoute.path}
-                    element={route.element}
-                  />
-                ))}
-            </Route>
+            <Route
+              key={route._name}
+              path={route.path}
+              element={route.element}
+            ></Route>
           );
         })}
       </Routes>
