@@ -22,10 +22,12 @@ const IdentitySelect = () => {
           navigate("/login");
           break;
         case "doctor":
-          navigate("/hospital");
+          // 医生带参跳转，通过 state 参数传递身份信息
+          navigate("/hospital", { state: { identity: "doctor" } });
           break;
         case "engineer":
-          navigate("/engineer");
+          // 工程师带参跳转，通过 state 参数传递身份信息
+          navigate("/hospital", { state: { identity: "engineer" } });
           break;
         default:
           break;

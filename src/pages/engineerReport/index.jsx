@@ -1,53 +1,37 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import BoxModel from "../../components/boxModel";
 import { Form, Input, Button, message } from "antd";
-import SignatureCanvas from "react-signature-canvas";
 import "./index.scss";
 
 const EngineerReport = () => {
   const [form] = Form.useForm();
-  const [isSignatureEmpty, setIsSignatureEmpty] = useState(true);
-  const sigCanvasRef = useRef(null);
 
   const onFinish = (values) => {
-    if (isSignatureEmpty) {
-      message.error("请先提供客户签名");
-      return;
-    }
-
-    const signatureData = sigCanvasRef.current
-      .getTrimmedCanvas()
-      .toDataURL("image/png");
     const formValues = {
-      ...values,
-      customerSignature: signatureData
+      ...values
     };
-
     console.log("Form submitted with values:", formValues);
     message.success("报告提交成功");
   };
 
-  const clearSignature = () => {
-    sigCanvasRef.current.clear();
-    setIsSignatureEmpty(true);
-  };
-
-  const handleSignatureEnd = () => {
-    setIsSignatureEmpty(sigCanvasRef.current.isEmpty());
-  };
+  // 定义标签列和输入框列的布局
+  const labelCol = { span: 6, offset: 0, style: { textAlign: "right" } };
+  const wrapperCol = { span: 16, offset: 1 };
 
   return (
     <div className="engineer-report">
       <BoxModel>
         <div className="engineer-report-box">
+          {/* 使用 labelCol 和 wrapperCol 统一设置表单布局 */}
           <Form
             form={form}
             name="engineerReportForm"
             onFinish={onFinish}
-            layout="vertical"
+            labelCol={labelCol}
+            wrapperCol={wrapperCol}
           >
             <Form.Item
-              label="机型"
+              label="设备型号"
               name="model"
               rules={[{ required: true, message: "请输入机型" }]}
             >
@@ -90,39 +74,20 @@ const EngineerReport = () => {
             </Form.Item>
 
             <Form.Item
-              label="客户签名"
+              label="客户确认"
               required
-              help={isSignatureEmpty ? "请在上面签名区域签名" : ""}
-              validateStatus={isSignatureEmpty ? "error" : ""}
+              name="customerConfirmation"
+              rules={[{ required: true, message: "请输入客户确认" }]}
             >
-              <div className="signature-container">
-                <SignatureCanvas
-                  ref={sigCanvasRef}
-                  penColor="black"
-                  canvasProps={{
-                    width: 500,
-                    height: 200,
-                    className: "signature-canvas"
-                  }}
-                  onEnd={handleSignatureEnd}
-                />
-                <div className="signature-actions">
-                  <Button onClick={clearSignature} style={{ marginRight: 8 }}>
-                    清除签名
-                  </Button>
-                  <Button
-                    type="primary"
-                    onClick={() =>
-                      setIsSignatureEmpty(sigCanvasRef.current.isEmpty())
-                    }
-                  >
-                    确认签名
-                  </Button>
-                </div>
-              </div>
+              <Input placeholder="客户确认" />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item
+              wrapperCol={{
+                ...wrapperCol,
+                offset: labelCol.span + wrapperCol.offset
+              }}
+            >
               <Button type="primary" htmlType="submit" block>
                 提交报告
               </Button>

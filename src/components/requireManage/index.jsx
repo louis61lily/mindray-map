@@ -22,7 +22,6 @@ const controlStyle = { width: 200 };
 const RequireManage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [currentRecord, setCurrentRecord] = useState(null);
 
   // 查询条件
   const onFinish = (values) => {
@@ -51,18 +50,6 @@ const RequireManage = () => {
       }
     });
   };
-
-  // 打开修改弹窗
-  const showModal = (record) => {
-    setCurrentRecord(record);
-    form.setFieldsValue({
-      submitter: record.submitter,
-      requireStatus: record.requireStatus,
-      content: record.content
-    });
-    setIsModalVisible(true);
-  };
-
   // 提交修改表单
   const handleOk = () => {
     form
@@ -84,11 +71,6 @@ const RequireManage = () => {
   // 导出函数
   const handleExport = () => {
     console.log("执行导出操作，当前表格数据：", dataSource);
-  };
-
-  // 打印函数
-  const handlePrint = () => {
-    console.log("执行打印操作，当前表格数据：", dataSource);
   };
 
   // 模拟数据
@@ -152,7 +134,7 @@ const RequireManage = () => {
       )
     },
     {
-      title: "需求状态",
+      title: "医院名称",
       dataIndex: "requireStatus",
       key: "requireStatus",
       align: "center",
@@ -175,26 +157,7 @@ const RequireManage = () => {
         );
       }
     },
-    {
-      title: "提交人",
-      dataIndex: "submitter",
-      key: "submitter",
-      align: "center",
-      width: 120,
-      render: (text) => (
-        <Tooltip title={text}>
-          <div
-            style={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis"
-            }}
-          >
-            {text}
-          </div>
-        </Tooltip>
-      )
-    },
+
     {
       title: "需求内容",
       dataIndex: "content",
@@ -219,7 +182,7 @@ const RequireManage = () => {
       title: "操作",
       key: "action",
       align: "center",
-      width: 180,
+      width: 120,
       fixed: "right",
       render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "center", gap: "8px" }}>
@@ -235,18 +198,6 @@ const RequireManage = () => {
           >
             删除
           </Button>
-          <Button
-            style={{
-              fontSize: "11px",
-              color: "white",
-              backgroundColor: "#147ecd",
-              whiteSpace: "nowrap"
-            }}
-            onClick={() => showModal(record)}
-            size="small"
-          >
-            修改
-          </Button>
         </div>
       )
     }
@@ -258,7 +209,7 @@ const RequireManage = () => {
         <Form colon={false} layout="inline" onFinish={onFinish}>
           <Form.Item
             className="form-item"
-            label="需求状态"
+            label="医院名称"
             name="requireStatus"
           >
             <Select placeholder="请选择" style={controlStyle}>
@@ -288,11 +239,6 @@ const RequireManage = () => {
       </div>
       <div className="require-manage-table">
         <div className="require-manage-table-header">
-          <div className="require-manage-table-header-left">
-            <Button type="primary" style={{ borderRadius: "0px" }}>
-              + 新建
-            </Button>
-          </div>
           <div className="require-manage-table-header-right">
             <Button
               type="primary"
@@ -300,13 +246,6 @@ const RequireManage = () => {
               onClick={handleExport}
             >
               导出
-            </Button>
-            <Button
-              type="primary"
-              style={{ borderRadius: "0px", marginLeft: "10px" }}
-              onClick={handlePrint}
-            >
-              打印
             </Button>
           </div>
         </div>

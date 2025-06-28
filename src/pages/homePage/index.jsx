@@ -167,7 +167,7 @@ const HomePage = () => {
                 <FullscreenOutlined />
               )}
             </span>
-            <span className="identity">身份</span>
+            <span className="identity">管理员</span>
             <div className="operate">
               <Dropdown
                 menu={{

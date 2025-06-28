@@ -17,7 +17,7 @@ const OperateSelect = () => {
     navigate("/complain-hotline");
   };
 
-  // 定义跳转服务评价页面的函数
+  // 定义跳转服务需求页面的函数
   const handleEvaluationClick = () => {
     navigate("/service-evaluate");
   };
@@ -33,7 +33,7 @@ const OperateSelect = () => {
             投诉热线
           </Button>
           <Button type="primary" onClick={handleEvaluationClick}>
-            服务评价
+            服务需求
           </Button>
         </div>
       </BoxModel>

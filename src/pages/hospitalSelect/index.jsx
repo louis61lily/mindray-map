@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Select, Button, Row, Col } from "antd";
 import BoxModel from "../../components/boxModel";
 import "./index.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import service from "../../tools/request";
 
 const { Option } = Select;
 
 const HospitalSelect = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [hospitals, setHospitals] = useState([]); // 存储医院列表
   const [selectedHospital, setSelectedHospital] = useState(null); // 存储选中的医院
 
@@ -21,12 +22,20 @@ const HospitalSelect = () => {
     }
   };
 
-  // todo
   const handleConfirm = () => {
-    if (selectedHospital) {
+    // if (selectedHospital) {
+    // 从 location.state 中获取身份信息
+    const identity = location.state?.identity;
+    if (identity === "doctor") {
+      // 医生跳转
       navigate("/doctor-operate", { state: { hospital: selectedHospital } });
+    } else if (identity === "engineer") {
+      // 工程师跳转
+      navigate("/engineer", {
+        state: { hospital: selectedHospital }
+      });
     }
-    navigate("/doctor-operate", { state: { hospital: selectedHospital } });
+    // }
   };
 
   return (

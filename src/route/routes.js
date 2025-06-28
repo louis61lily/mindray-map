@@ -14,7 +14,6 @@ const routes = [
   {
     _name: "root",
     path: "/",
-    needToken: false,
     element: <Navigate to="/identity" />
   },
   {
@@ -30,7 +29,8 @@ const routes = [
   {
     _name: "home",
     path: "/home",
-    element: <HomePage></HomePage> ?? <div>后台首页</div>
+    element: <HomePage></HomePage> ?? <div>后台首页</div>,
+    requiresAuth: true
   },
   {
     _name: "hospital",
@@ -60,7 +60,7 @@ const routes = [
   {
     _name: "service-evaluate",
     path: "/service-evaluate",
-    element: <ServiceEvaluate></ServiceEvaluate> ?? <div>服务评价</div>
+    element: <ServiceEvaluate></ServiceEvaluate> ?? <div>服务需求</div>
   },
   {
     _name: "404",

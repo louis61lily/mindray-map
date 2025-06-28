@@ -23,7 +23,7 @@ const ServiceEvaluate = () => {
         <div className="service-evaluate-box">
           <Input.TextArea
             rows={4}
-            placeholder="请输入服务评价内容"
+            placeholder="请输入服务需求内容"
             value={evaluation}
             onChange={(e) => setEvaluation(e.target.value)}
           />
