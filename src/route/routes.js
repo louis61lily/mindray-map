@@ -10,6 +10,18 @@ import ComplainHotline from "../pages/complainHotline";
 import ServiceEvaluate from "../pages/serviceEvaluate";
 import EngineerReport from "../pages/engineerReport";
 
+const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null;
+};
+
+// 路由守卫组件
+const ProtectedRoute = ({ children }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
 const routes = [
   {
     _name: "root",
@@ -19,53 +31,57 @@ const routes = [
   {
     _name: "identity",
     path: "/identity",
-    element: <IdentitySelect></IdentitySelect> ?? <div>身份选择</div>
+    element: <IdentitySelect />
   },
   {
     _name: "login",
     path: "/login",
-    element: <LoginPage></LoginPage> ?? <div>管理员登录页面</div>
+    element: <LoginPage />
   },
   {
     _name: "home",
     path: "/home",
-    element: <HomePage></HomePage> ?? <div>后台首页</div>,
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
     requiresAuth: true
   },
   {
     _name: "hospital",
     path: "/hospital",
-    element: <HospitalSelect></HospitalSelect> ?? <div>医院选择</div>
+    element: <HospitalSelect />
   },
   {
     _name: "engineer",
     path: "/engineer",
-    element: <EngineerReport></EngineerReport> ?? <div>工程师上报</div>
+    element: <EngineerReport />
   },
   {
     _name: "doctor-operate",
     path: "/doctor-operate",
-    element: <OperateSelect></OperateSelect> ?? <div>科室操作</div>
+    element: <OperateSelect />
   },
   {
     _name: "person-list",
     path: "/person-list",
-    element: <PersonList></PersonList> ?? <div>人员联系</div>
+    element: <PersonList />
   },
   {
     _name: "complain-hotline",
     path: "/complain-hotline",
-    element: <ComplainHotline></ComplainHotline> ?? <div>投诉热线</div>
+    element: <ComplainHotline />
   },
   {
     _name: "service-evaluate",
     path: "/service-evaluate",
-    element: <ServiceEvaluate></ServiceEvaluate> ?? <div>服务需求</div>
+    element: <ServiceEvaluate />
   },
   {
     _name: "404",
     path: "*",
-    element: <NotFoundPage></NotFoundPage> // 404页面
+    element: <NotFoundPage /> // 404页面
   }
 ];
 

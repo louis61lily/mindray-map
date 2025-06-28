@@ -13,6 +13,7 @@ import logo from "../../static/logo.png";
 import NotFoundPage from "../notFoundPage";
 import RequireManage from "../../components/requireManage";
 import ServiceManage from "../../components/serivceManage";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,6 +23,7 @@ const HomePage = () => {
   const [selectedKey, setSelectedKey] = useState("home");
   const [tagPath, setTagPath] = useState([{ key: "home", label: "首页" }]);
   const [isFullscreen, setIsFullscreen] = useState(false); // 新增全屏状态
+  const navigate = useNavigate();
 
   // 侧边栏收起与展开
   const toggle = () => {
@@ -30,6 +32,8 @@ const HomePage = () => {
 
   // 用户点击退出操作
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
     console.log("登出操作");
   };
 

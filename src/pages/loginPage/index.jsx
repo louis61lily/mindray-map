@@ -12,6 +12,7 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     const { username, password } = values;
     if (username === loginPass.userName && password === loginPass.passWord) {
+      localStorage.setItem("token", "admin");
       navigate("/home");
     } else {
       message.error("登录失败，请检查账号密码");
